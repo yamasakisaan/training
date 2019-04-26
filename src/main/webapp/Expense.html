@@ -32,28 +32,57 @@
 			<form id="expenseForm" enctype="multipart/form-data">
 				<div class="error"></div>
 				<div>
-					<label for="id">ID:</label>
+					<label for="id">申請ID:</label>
 					<input type="text" name="id" id="id" disabled>
 				</div>
 				<div>
-					<label for="empId">社員ID:</label>
-					<input type="text" maxlength="10" name="empId" id="empId">
+					<label for="applicationDate">申請日:</label>
+					<input type="text" maxlength="10" name="applicationDate" id="applicationDate">
 				</div>
 				<div>
-					<label for="advanceYmd">立替日:</label>
-					<input type="text" maxlength="40" name="advanceYmd" id="advanceYmd">
+					<label for="updateDate">更新日:</label>
+					<input type="text" maxlength="40" name="updateDate" id="updateDate">
+				</div>
+				<div>
+					<label for="empId">申請者:</label>
+					<input type="text" name="empId" id="empId">
+				</div>
+				<div>
+					<label for="title">タイトル:</label>
+					<select name="title" id="title">
+						<option value="" selected>カテゴリ</option>
+						<option value="交通費" selected>交通費</option>
+						<option value="印刷費" selected>印刷費</option>
+					</select>
+				</div>
+				<div>
+					<label for="payee">支払先:</label>
+					<input type="text" name="payee" id="payee">
 				</div>
 				<div>
 					<label for="amount">金額:</label>
 					<input type="text" name="amount" id="amount">
 				</div>
 				<div>
-					<label for="category">カテゴリ:</label>
-					<select name="category" id="category">
-						<option value="" selected>カテゴリ</option>
-						<option value="交通費" selected>交通費</option>
-						<option value="印刷費" selected>印刷費</option>
-					</select>
+					<label for="status">ステータス:</label>
+					<input type="text" name="status" id="status">
+				</div>
+				<div>
+					<label for="modifiedBy">更新者:</label>
+					<input type="text" name="modifiedBy" id="modifiedBy">
+				</div>
+            	<div>
+					<button id="return">戻る</button>
+            	</div>
+            	<div>
+					<button id="approval">承認</button>
+            	</div>
+            	<div>
+					<button id="reject">却下</button>
+            	</div>
+            	<div>
+					<label for="reasonOfReject">却下理由:</label>
+					<input type="text" name="reasonOfReject" id="reasonOfReject">
 				</div>
             	<div>
 					<button id="saveExpense">保存</button>

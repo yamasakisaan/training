@@ -12,6 +12,11 @@ public class Expense {
 	private String title;
 	private int amount;
 	private String status;
+
+	private String payee;
+	private String modifiedBy;
+	private String reasonOfReject;
+
 	public String getId() {
 		return id;
 	}
@@ -53,5 +58,23 @@ public class Expense {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getPayee() {
+		return payee;
+	}
+	public void setPayee(String payee) {
+		this.payee = payee;
+	}
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+	public String getReasonOfReject() {
+		return reasonOfReject;
+	}
+	public void setReasonOfReject(String reasonOfReject) {
+		this.reasonOfReject = reasonOfReject;
 	}
 }
