@@ -19,12 +19,11 @@ public class ExpenseDAO {
 	/**
 	 * クエリ文字列
 	 */
-	private static final String SELECT_ALL_QUERY = "select EMPID, YMD, AMOUNT, CATEGORY, DESCRIPTION from EXPENSE";
+	private static final String SELECT_ALL_QUERY = "select ID, APPLICATION_DATE, UPDATE_DATE, EMPID, TITLE, AMOUNT, STATUS from EXPENSE";
 	private static final String SELECT_BY_ID_QUERY = SELECT_ALL_QUERY + "where 1=1  \n" +
 			"and EMPID='0000000001' \n" +
-			"and YMD between '20130501' and '20130501' \n" +
-			"and CATEGORY = '交通費' \n" +
-			"and DESCRIPTION like '%日比谷線%' \n";
+			"and APPLICATION_DATE between '20130501' and '20190501' \n" +
+			"and TITLE = '交通費' \n";
 
 	/**
 	 * 経費の全件を取得する。
@@ -62,11 +61,13 @@ public class ExpenseDAO {
 	 */
 	private Expense processRow(ResultSet rs) throws SQLException{
 		Expense result = new Expense();
+		result.setId(rs.getString("ID"));
+		result.setApplicationDate(rs.getString("APPLICATION_DATE"));
+		result.setUpdateDate(rs.getString("UPDATE_DATE"));
 		result.setEmpId(rs.getString("EMPID"));
-		result.setAdvanceYmd(rs.getString("YMD"));
+		result.setTitle(rs.getString("TITLE"));
 		result.setAmount(rs.getInt("AMOUNT"));
-		result.setCategory(rs.getString("CATEGORY"));
-		result.setDscrpt(rs.getString("DESCRIPTION"));
+		result.setStatus(rs.getString("STATUS"));
 		return result;
 	}
 }
