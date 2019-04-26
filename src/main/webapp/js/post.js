@@ -114,11 +114,11 @@ function renderTable(data) {
 			row.append($('<td>').text(post.id));
 			row.append($('<td>').text(post.name));
 			row.append($('<td>').append(
-					$('<button>').text("編集").attr("type","button").attr("onclick", "findById("+post.id+')')
-				));
+					$('<button>').text("編集").attr("type","button").attr("onclick", "findById("+post.id+')')));
+
 			row.append($('<td>').append(
-					$('<button>').text("削除").attr("type","button").attr("onclick", "deleteById("+post.id+')')
-				));
+					$('<button>').text("削除").attr("type","button").attr("onclick", "deleteById("+post.id+')')));
+
 			table.append(row);
 		});
 
