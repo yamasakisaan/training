@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
+import beans.Expense;
 import dao.ExpenseDAO;
 
 public class ExpenseResource {
@@ -15,7 +17,7 @@ public class ExpenseResource {
 	 * @return 経費情報のリストをJSON形式で返す。
 	 */
 	@GET
-	@Produces()
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<Expense> findAll(){
 		return dao.findAll();
 	}
