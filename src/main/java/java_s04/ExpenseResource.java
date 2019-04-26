@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -22,5 +23,18 @@ public class ExpenseResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Expense> findAll(){
 		return dao.findAll();
+	}
+
+	/**
+	 * ID指定で経費情報を取得する。
+	 *
+	 * @param id 検索対象のID
+	 * @return 取得した経費情報をJSON形式で返す。
+	 */
+	@GET
+	@Path("{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Expense findById(@PathParam("id") int id){
+		return dao.findById(id);
 	}
 }

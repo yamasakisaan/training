@@ -2,6 +2,7 @@ package dao;
 
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,10 +21,7 @@ public class ExpenseDAO {
 	 * クエリ文字列
 	 */
 	private static final String SELECT_ALL_QUERY = "select ID, APPLICATION_DATE, UPDATE_DATE, EMPID, TITLE, AMOUNT, STATUS from EXPENSE";
-	private static final String SELECT_BY_ID_QUERY = SELECT_ALL_QUERY + "where 1=1  \n" +
-			"and EMPID='0000000001' \n" +
-			"and APPLICATION_DATE between '20130501' and '20190501' \n" +
-			"and TITLE = '交通費' \n";
+	private static final String SELECT_BY_ID_QUERY = "select ID, APPLICATION_DATE, UPDATE_DATE, EMPID, TITLE, AMOUNT, STATUS, PAYEE, MODIFIED_BY,REJECT_REASON from EXPENSE where ID = ?";
 
 	/**
 	 * 経費の全件を取得する。
@@ -54,6 +52,37 @@ public class ExpenseDAO {
 	}
 
 	/**
+	 * ID指定の検索を実施する。
+	 *
+	 * @param id 検索対象のID
+	 * @return 検索できた場合は検索結果データを収めたPostインスタンスを返す。検索に失敗した場合はnullが返る。
+	 */
+	public Expense findById(int id){
+		Expense result = null;
+
+		Connection connection = ConnectionProvider.getConnection();
+		if(connection == null){
+			return result;
+		}
+
+		try(PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_QUERY)){
+			statement.setInt(1,id);//
+
+			ResultSet rs = statement.executeQuery();
+
+			if(rs.next()){
+				result = processRow(rs);
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally{
+			ConnectionProvider.close(connection);
+		}
+		return result;
+
+	}
+
+	/**
 	 * 検索結果行をオブジェクトとして構成する。
 	 * @param rs 検索結果が収められているResultSet
 	 * @return 検索結果行の各データを収めたPostインスタンス
@@ -68,6 +97,10 @@ public class ExpenseDAO {
 		result.setTitle(rs.getString("TITLE"));
 		result.setAmount(rs.getInt("AMOUNT"));
 		result.setStatus(rs.getString("STATUS"));
+
+		result.setPayee(rs.getString("PAYEE"));
+		result.setModifiedBy(rs.getString("MODIFIED_BY"));
+		result.setReasonOfReject(rs.getString("REJECT_REASON"));
 		return result;
 	}
 }

@@ -15,6 +15,18 @@ function findAll(){
 	});
 }
 
+function findById(id){
+	console.log('findById-expense start.');
+	$.ajax({
+		type:'GET',
+		utl:rootUrl + '/' + id,
+		dataType:'json'
+		success:function(data){
+			console.log('findById success: ' + data.name)
+		}
+	})
+}
+
 function renderTable(data){
 	var headerRow = '<tr><th>ID</th><th>申請日</th><th>更新日</th><th>申請者</th><th>タイトル</th><th>金額</th><th>ステータス</th></tr>';
 
