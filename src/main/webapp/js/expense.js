@@ -15,6 +15,29 @@ $('#saveExpense').click(function(){
 	}
 });
 
+function addExpense(){
+	console.log('addExpense started');
+
+	var fd = new FormData($('#expenseForm').val());
+	$.ajax({
+		url:rootUrl,
+		type : "POST",
+		data : fd,
+		contentType : false,
+		processData : false,
+		dataType : "json",
+		success : function(data, textStatus, jqXHR) {
+			alert('経費データの追加に成功しました');
+			findAll();
+			renderDetails(data);
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			alert('経費データの追加に失敗しました');
+		}
+	})
+}
+
+
 
 function findAll(){
 	console.log('findAll-expense start.')
@@ -101,12 +124,12 @@ function updateExpense(id){
 		contentType:false,
 		processData:false,
 		success: function(data, textStatus, jqXHR) {
-			alert('社員データの更新に成功しました');
+			alert('経費データの更新に成功しました');
 			findAll();
 			renderDetails(data);
 
 	},error : function(jqXHR, textStatus, errorThrown) {
-		alert('社員データの更新に失敗しました');
+		alert('経費データの更新に失敗しました');
 	}
 			})
 }

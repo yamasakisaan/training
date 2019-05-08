@@ -111,7 +111,29 @@ public class ExpenseDAO {
 		return expense;
 	}
 
+	public Expense create(Expense expense){
+		Connection connection = ConnectionProvider.getConnection();
+		if (connection == null) {
+			return expense;
+		}
 
+		try(PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)){
+			setParameter(statement,expense,false);
+			statement.executeUpdate();
+
+			//INSERTできたらKEY取得
+			ResultSet rs = statement.getGeneratedKeys();
+			rs.next();
+			String i = String.valueOf(1);
+			String id = rs.getString(i);
+			expense.setId(id);
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally{
+			ConnectionProvider.close(connection);
+		}
+		return expense;
+	}
 
 	/**
 	 * 検索結果行をオブジェクトとして構成する。

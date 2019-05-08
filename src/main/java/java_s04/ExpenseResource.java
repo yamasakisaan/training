@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -43,6 +44,42 @@ public class ExpenseResource {
 		return dao.findById(id);
 	}
 
+	/**
+	 * 指定した経費情報を登録する
+	 * @param id
+	 * @param form 経費情報を収めたオブジェクト
+	 * @return DB上のIDが振られた経費情報
+	 * @throws WebApplicationException 入力データチェックに失敗した場合に送出される。
+	 */
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Expense create(@PathParam("id") String id,
+			final FormDataMultiPart form)throws WebApplicationException {
+		Expense expense = new Expense();
+
+		expense.setId(null);
+		expense.setApplicationDate(form.getField("applicationDate").getValue());
+		expense.setUpdateDate(form.getField("updateDate").getValue());
+		expense.setEmpId(form.getField("empId").getValue());
+		expense.setTitle(form.getField("title").getValue());
+		expense.setAmount(Integer.parseInt(form.getField("amount").getValue()));
+		expense.setStatus(form.getField("status").getValue());
+		expense.setPayee(form.getField("payee").getValue());
+		expense.setModifiedBy(form.getField("modifiedBy").getValue());
+		expense.setReasonOfReject(form.getField("reasonOfReject").getValue());
+
+		return dao.create(expense);
+	}
+
+
+	/**
+	 * 指定した情報でDBを更新する
+	 * @param id
+	 * @param form 更新情報を含めた経費情報
+	 * @return
+	 * @throws WebApplicationException 入力データチェックに失敗した場合に送出される。
+	 */
 	@PUT
 	@Path("{id}")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
