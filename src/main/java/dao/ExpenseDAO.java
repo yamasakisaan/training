@@ -55,7 +55,7 @@ public class ExpenseDAO {
 	 * ID指定の検索を実施する。
 	 *
 	 * @param id 検索対象のID
-	 * @return 検索できた場合は検索結果データを収めたPostインスタンスを返す。検索に失敗した場合はnullが返る。
+	 * @return 検索できた場合は検索結果データを収めたExpenseインスタンスを返す。検索に失敗した場合はnullが返る。
 	 */
 	public Expense findById(String id){
 		Expense result = null;

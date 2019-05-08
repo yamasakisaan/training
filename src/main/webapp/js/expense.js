@@ -16,16 +16,16 @@ function findAll(){
 }
 
 function findById(id){
-	console.log('findById-expense start.');
+	console.log('findById-expense start. id:'+ id);
 	$.ajax({
 		type:'GET',
-		utl:rootUrl + '/' + id,
+		url:rootUrl + '/' + id,
 		dataType:'json',
-		success:function(data){
-			console.log('findById success: ' + data.id);
+		success: function(data) {
+			console.log('findById success: ' + data.title);
 			renderDetails(data)
 		}
-	})
+	});
 }
 
 function renderTable(data){
@@ -49,10 +49,10 @@ function renderTable(data){
 			row.append( $('<td>').text(expense.status));
 			row.append(
 					$('<td>').append(
-							$('<button>').text("編集").attr("type","button").attr("onclick","findById("+expense.id+")")));
+							$('<button>').text("編集").attr("type","button").attr("onclick","findById('"+expense.id+"')")));
 			row.append(
 					$('<td>').append(
-							$('<button>').text("削除").attr("type","button").attr("onclick","deleteById("+expense.id+")")));
+							$('<button>').text("削除").attr("type","button").attr("onclick","deleteById('"+expense.id+"')")));
 
 			table.append(row);
 		});
@@ -61,18 +61,20 @@ function renderTable(data){
 	}
 }
 
-//編集ボタン押す→登録されている内容が表示される（そして変更可能になる）
+//編集ボタン押す→findById→登録されている内容が表示される（そして変更可能になる）
 function renderDetails(expense){
 	$('.error').text('');
 	$('#id').val(expense.id);
 	$('#applicationDate').val(expense.applicationDate);
 	$('#updateDate').val(expense.updateDate);
 	$('#empId').val(expense.empId);
-	$('#title')//
+	$('[value="'+expense.title+'"]').prop('selected',true);
 	$('#amount').val(expense.amount);
 	$('#status').val(expense.status);
-	//$('#modifiedBy').val(expense.modifiedBy);
-	//$('#reasonOfReject').val(expense.reasonOfReject);
+	$('#modifiedBy').val(expense.modifiedBy);
+	$('#reasonOfReject').val(expense.reasonOfReject);
+
+	console.log('findById success: ' + expense.id);
 }
 
 
