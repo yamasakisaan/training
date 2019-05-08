@@ -5,6 +5,17 @@
 var rootUrl = "/java_s04/api/v1.1/expenses";
 findAll();
 
+$('#saveExpense').click(function(){
+	if($('#id').val() === ''){
+		console.log('add new expense');
+		addExpense();
+	}else{
+		console.log('activate method updateExpense');
+		updateExpense($('#id').val());
+	}
+});
+
+
 function findAll(){
 	console.log('findAll-expense start.')
 	$.ajax({
@@ -73,10 +84,32 @@ function renderDetails(expense){
 	$('#status').val(expense.status);
 	$('#modifiedBy').val(expense.modifiedBy);
 	$('#reasonOfReject').val(expense.reasonOfReject);
+	$('#payee').val(expense.payee);
 
 	console.log('findById success: ' + expense.id);
 }
 
+function updateExpense(id){
+	console.log('update expense start id:'+id);
+	//var fd = new FormData($('#expenseForm').get(0));
+	var fd = new FormData(document.getElementById("expenseForm"));
+	$.ajax({
+		url:rootUrl + '/' + id,
+		type:'PUT',
+		dataType:'json',
+		data:fd,
+		contentType:false,
+		processData:false,
+		success: function(data, textStatus, jqXHR) {
+			alert('社員データの更新に成功しました');
+			findAll();
+			renderDetails(data);
+
+	},error : function(jqXHR, textStatus, errorThrown) {
+		alert('社員データの更新に失敗しました');
+	}
+			})
+}
 
 /*
  *

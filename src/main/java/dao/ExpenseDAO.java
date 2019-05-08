@@ -22,6 +22,13 @@ public class ExpenseDAO {
 	 */
 	private static final String SELECT_ALL_QUERY = "select ID, APPLICATION_DATE, UPDATE_DATE, EMPID, TITLE, AMOUNT, STATUS, PAYEE, MODIFIED_BY, REJECT_REASON from EXPENSE";
 	private static final String SELECT_BY_ID_QUERY = "select ID, APPLICATION_DATE, UPDATE_DATE, EMPID, TITLE, AMOUNT, STATUS, PAYEE, MODIFIED_BY,REJECT_REASON from EXPENSE where ID = ?";
+	private static final String UPDATE_QUERY = "update EXPENSE set ID=?, APPLICATION_DATE=?, UPDATE_DATE=?, EMPID=?, TITLE=?, \n" +
+			"	AMOUNT=?, STATUS=?, PAYEE=?, MODIFIED_BY=?, REJECT_REASON=? \n" +
+			"where ID=? \n" ;
+	private static final String INSERT_QUERY = "insert into EXPENSE \n" +
+			"(ID, APPLICATION_DATE, UPDATE_DATE, EMPID, TITLE, AMOUNT, STATUS, PAYEE, \n" +
+			"	MODIFIED_BY, REJECT_REASON) \n" +
+			"values(?,?,?,?,?,?,?,?,?,?) \n" ;
 
 	/**
 	 * 経費の全件を取得する。
@@ -83,6 +90,30 @@ public class ExpenseDAO {
 	}
 
 	/**
+	 *
+	 * @param expense 更新対象オブジェクト
+	 * @return 更新に成功したらtrue、失敗したらfalse
+	 */
+	public Expense update(Expense expense){
+		Connection connection = ConnectionProvider.getConnection();
+		if(connection == null){
+			return expense;
+		}
+
+		try(PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)){
+			setParameter(statement, expense, true);
+			statement.executeUpdate();
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally{
+			ConnectionProvider.close(connection);
+		}
+		return expense;
+	}
+
+
+
+	/**
 	 * 検索結果行をオブジェクトとして構成する。
 	 * @param rs 検索結果が収められているResultSet
 	 * @return 検索結果行の各データを収めたPostインスタンス
@@ -103,4 +134,32 @@ public class ExpenseDAO {
 		result.setReasonOfReject(rs.getString("REJECT_REASON"));
 		return result;
 	}
+
+	/**
+	 * オブジェクトからSQLにパラメータを展開する。
+	 * @param statement パラメータ展開対象のSQL
+	 * @param expense パラメータに対して実際の値を供給するオブジェクト
+	 * @param forUpdate 更新に使われるならtrueを、新規追加に使われるならfalseを指定する
+	 * @throws SQLException パラメータ展開時に何らかの問題が発生した場合に送出される
+	 */
+	private void setParameter(PreparedStatement statement, Expense expense, boolean forUpdate) throws SQLException{
+		int count=1;
+
+		statement.setString(count++, expense.getId());
+		statement.setString(count++, expense.getApplicationDate());
+		statement.setString(count++, expense.getUpdateDate());
+		//statement.setInt(count++, expense.getGender().ordinal());
+		statement.setString(count++, expense.getEmpId());
+		statement.setString(count++, expense.getTitle());
+		statement.setInt(count++, expense.getAmount());
+		statement.setString(count++, expense.getStatus());
+		statement.setString(count++, expense.getPayee());
+		statement.setString(count++, expense.getModifiedBy());
+		statement.setString(count++, expense.getReasonOfReject());
+		//statement.setInt(count++, expense.getExpense().getId());
+		if(forUpdate){
+			statement.setString(count++, expense.getId());
+		}
+	}
+
 }
