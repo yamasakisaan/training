@@ -20,7 +20,7 @@ public class ExpenseDAO {
 	/**
 	 * クエリ文字列
 	 */
-	private static final String SELECT_ALL_QUERY = "select ID, APPLICATION_DATE, UPDATE_DATE, EMPID, TITLE, AMOUNT, STATUS from EXPENSE";
+	private static final String SELECT_ALL_QUERY = "select ID, APPLICATION_DATE, UPDATE_DATE, EMPID, TITLE, AMOUNT, STATUS, PAYEE, MODIFIED_BY, REJECT_REASON from EXPENSE";
 	private static final String SELECT_BY_ID_QUERY = "select ID, APPLICATION_DATE, UPDATE_DATE, EMPID, TITLE, AMOUNT, STATUS, PAYEE, MODIFIED_BY,REJECT_REASON from EXPENSE where ID = ?";
 
 	/**

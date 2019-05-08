@@ -22,7 +22,8 @@ function findById(id){
 		utl:rootUrl + '/' + id,
 		dataType:'json',
 		success:function(data){
-			console.log('findById success: ' + data.name)
+			console.log('findById success: ' + data.id);
+			renderDetails(data)
 		}
 	})
 }
@@ -58,6 +59,20 @@ function renderTable(data){
 
 		$('#expenses').append(table);
 	}
+}
+
+//編集ボタン押す→登録されている内容が表示される（そして変更可能になる）
+function renderDetails(expense){
+	$('.error').text('');
+	$('#id').val(expense.id);
+	$('#applicationDate').val(expense.applicationDate);
+	$('#updateDate').val(expense.updateDate);
+	$('#empId').val(expense.empId);
+	$('#title')//
+	$('#amount').val(expense.amount);
+	$('#status').val(expense.status);
+	//$('#modifiedBy').val(expense.modifiedBy);
+	//$('#reasonOfReject').val(expense.reasonOfReject);
 }
 
 
