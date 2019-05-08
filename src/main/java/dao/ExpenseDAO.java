@@ -57,7 +57,7 @@ public class ExpenseDAO {
 	 * @param id 検索対象のID
 	 * @return 検索できた場合は検索結果データを収めたPostインスタンスを返す。検索に失敗した場合はnullが返る。
 	 */
-	public Expense findById(int id){
+	public Expense findById(String id){
 		Expense result = null;
 
 		Connection connection = ConnectionProvider.getConnection();
@@ -66,7 +66,7 @@ public class ExpenseDAO {
 		}
 
 		try(PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_QUERY)){
-			statement.setInt(1,id);//
+			statement.setString(1,id);
 
 			ResultSet rs = statement.executeQuery();
 

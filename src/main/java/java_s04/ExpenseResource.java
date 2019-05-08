@@ -34,7 +34,7 @@ public class ExpenseResource {
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Expense findById(@PathParam("id") int id){
+	public Expense findById(@PathParam("id") String id){
 		return dao.findById(id);
 	}
 }

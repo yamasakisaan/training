@@ -20,7 +20,7 @@ function findById(id){
 	$.ajax({
 		type:'GET',
 		utl:rootUrl + '/' + id,
-		dataType:'json'
+		dataType:'json',
 		success:function(data){
 			console.log('findById success: ' + data.name)
 		}
