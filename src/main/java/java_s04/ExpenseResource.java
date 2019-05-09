@@ -3,6 +3,7 @@ package java_s04;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -101,5 +102,16 @@ public class ExpenseResource {
 
 
 		return dao.update(expense);
+	}
+
+	/**
+	 * 指定したIDの経費情報を削除する
+	 * @param id
+	 */
+	@DELETE
+	@Path("{id}")
+	public void remove(@PathParam("id") String id){
+		//Expense expense = new dao.findById(id);
+		dao.remove(id);
 	}
 }

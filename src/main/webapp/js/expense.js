@@ -141,6 +141,22 @@ function updateExpense(id){
 			})
 }
 
+function deleteById(id){
+	console.log('delete start - id:'+id);
+	$.ajax({
+		type:'DELETE',
+		url:rootUrl + '/' + id,
+		success: function(){
+			alert('経費データの削除に成功しました');
+			findAll();
+			renderDetails({});
+		},
+		error:function(jqXHR, textStatus, errorThrown) {
+			alert('経費データの削除に失敗しました')
+		}
+	});
+}
+
 /*
  *
 function formToJSON(){

@@ -140,17 +140,27 @@ public class ExpenseDAO {
 		return expense;
 	}
 
-	/*public boolean remove(String id){
+	/**
+	 * 削除する機能
+	 * @param id
+	 * @return
+	 */
+	public boolean remove(String id){
 		Connection connection = ConnectionProvider.getConnection();
 		if(connection == null){
 			return false;
 		}
 
 		int count = 0;
-		try(PreparedStatement = connection.preparedStatement(DELETE_QUERY)){
+		try(PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)){
 			statement.setString(1,id);
-		}
-	}*/
+			count = statement.executeUpdate();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally{
+			ConnectionProvider.close(connection);
+		}return count == 1;
+	}
 
 	/**
 	 * 検索結果行をオブジェクトとして構成する。
