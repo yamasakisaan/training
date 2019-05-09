@@ -111,13 +111,18 @@ public class ExpenseDAO {
 		return expense;
 	}
 
+	/**
+	 * DBに新規追加
+	 * @param expense
+	 * @return
+	 */
 	public Expense create(Expense expense){
 		Connection connection = ConnectionProvider.getConnection();
 		if (connection == null) {
 			return expense;
 		}
 
-		try(PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)){
+		try(PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, new String[] { "ID" });){
 			setParameter(statement,expense,false);
 			statement.executeUpdate();
 

@@ -5,6 +5,7 @@
 var rootUrl = "/java_s04/api/v1.1/expenses";
 findAll();
 
+//「保存」
 $('#saveExpense').click(function(){
 	if($('#id').val() === ''){
 		console.log('add new expense');
@@ -15,10 +16,16 @@ $('#saveExpense').click(function(){
 	}
 });
 
+//「新規追加」
+$('#newExpense').click(function(){
+	console.log('newExpense')
+	renderDetails({});
+});
+
 function addExpense(){
 	console.log('addExpense started');
 
-	var fd = new FormData($('#expenseForm').val());
+	var fd = new FormData(document.getElementById("expenseForm"));
 	$.ajax({
 		url:rootUrl,
 		type : "POST",
