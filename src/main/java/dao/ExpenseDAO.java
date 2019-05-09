@@ -29,6 +29,7 @@ public class ExpenseDAO {
 			"(ID, APPLICATION_DATE, UPDATE_DATE, EMPID, TITLE, AMOUNT, STATUS, PAYEE, \n" +
 			"	MODIFIED_BY, REJECT_REASON) \n" +
 			"values(?,?,?,?,?,?,?,?,?,?) \n" ;
+	private static final String DELETE_QUERY = "delete from EXPENSE where ID=? " ;
 
 	/**
 	 * 経費の全件を取得する。
@@ -129,8 +130,7 @@ public class ExpenseDAO {
 			//INSERTできたらKEY取得
 			ResultSet rs = statement.getGeneratedKeys();
 			rs.next();
-			String i = String.valueOf(1);
-			String id = rs.getString(i);
+			String id = rs.getString(1);
 			expense.setId(id);
 		}catch(SQLException ex){
 			ex.printStackTrace();
@@ -139,6 +139,18 @@ public class ExpenseDAO {
 		}
 		return expense;
 	}
+
+	/*public boolean remove(String id){
+		Connection connection = ConnectionProvider.getConnection();
+		if(connection == null){
+			return false;
+		}
+
+		int count = 0;
+		try(PreparedStatement = connection.preparedStatement(DELETE_QUERY)){
+			statement.setString(1,id);
+		}
+	}*/
 
 	/**
 	 * 検索結果行をオブジェクトとして構成する。
