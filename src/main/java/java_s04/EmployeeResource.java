@@ -37,10 +37,33 @@ import dao.PostDAO;
  * Servlet/JSPの実装とは異なり、画像についてはバイナリでなくpathベースで扱うものとする。
  */
 @Path("employees")
-public class EmployeeResource {
+public class EmployeeResource{
 	private final EmployeeDAO empDao = new EmployeeDAO();
 	private final PostDAO postDao = new PostDAO();
 	private final PhotoDAO photoDao = new PhotoDAO();
+
+//	@POST
+//	@Path("users")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public void doPost(HttpServletRequest request, HttpServletResponse response)throws IOException, ServletException{
+//		//String inputUserId = request.getParameter("js-login-name");
+//		//String inputEmpId = request.getParameter("js-login-name");
+//		//String inputPassword = request.getParameter("js-login-pass");
+
+//		HttpSession session = request.getSession(true);
+
+//		session.setAttribute("userid", );
+
+//		Object status = session.getAttribute("status");
+
+//		if(status != null){
+//			System.out.println("ログイン失敗");
+//			session.setAttribute("status",null);
+//		}
+//	}
+
+
+
 
 	/**
 	 * ID指定で従業員情報を取得する。
@@ -54,6 +77,10 @@ public class EmployeeResource {
 	public Employee findById(@PathParam("id") int id) {
 		return empDao.findById(id);
 	}
+
+
+
+
 
 	/**
 	 * クエリパラメータ指定による検索を実施する。
