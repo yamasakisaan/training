@@ -1,7 +1,11 @@
 package java_s04;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -11,6 +15,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
@@ -110,8 +115,36 @@ public class ExpenseResource {
 	 */
 	@DELETE
 	@Path("{id}")
-	public void remove(@PathParam("id") String id){
+	public void remove(@PathParam("id") String id,@Context final HttpServletRequest request
+			,@Context final HttpServletResponse response){
 		//Expense expense = new dao.findById(id);
-		dao.remove(id);
+		//HttpSession session = session.getAttribute(id);
+
+		HttpSession session = request.getSession(false);
+		boolean check = authUser(id);
+
+		//Object status = session.getAttribute(id);
+
+		if(check){
+			dao.remove(id);
+		}else{
+			session.setAttribute("id",null);
+			try {
+				response.sendRedirect("/java_s04/Login.html");
+			} catch (IOException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
+		}
+
+		//dao.remove(id);
+	}
+
+	protected boolean authUser(String id){
+		if(id == null || id.length() == 0){
+			return false;
+		}else{
+		return true;
+		}
 	}
 }
